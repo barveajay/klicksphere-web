@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* KlickSphere Design System - Linear Tech Aesthetic */
+
+@layer base {
+  :root {
+    /* Core Dark Theme */
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Electric Indigo Primary */
+    --primary: 239 84% 67%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Muted surfaces */
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 70%;
+
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 50%;
+
+    /* Cyber Lime Accent */
+    --accent: 82 84% 79%;
+    --accent-foreground: 0 0% 4%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 239 84% 67%;
+
+    --radius: 0.75rem;
+
+    /* Custom tokens */
+    --glow-primary: 239 84% 67%;
+    --glow-accent: 82 84% 79%;
+    --grid-color: 0 0% 20%;
+    --glass-bg: 0 0% 6% / 0.8;
+    --glass-border: 0 0% 100% / 0.1;
+
+    /* Sidebar (keeping for compatibility) */
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 239 84% 67%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 239 84% 67%;
+  }
+
+  .dark {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Outfit', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Syne', 'Outfit', sans-serif;
+  }
+
+  ::selection {
+    @apply bg-primary/30 text-foreground;
+  }
+}
+
+@layer components {
+  /* Glassmorphism */
+  .glass {
+    @apply bg-card/80 backdrop-blur-xl border border-white/10;
+  }
+
+  /* Blueprint Grid Background */
+  .blueprint-grid {
+    background-image: 
+      linear-gradient(to right, hsl(var(--grid-color)) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--grid-color)) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Glow Effects */
+  .glow-primary {
+    box-shadow: 0 0 40px -10px hsl(var(--glow-primary) / 0.5);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 40px -10px hsl(var(--glow-accent) / 0.5);
+  }
+
+  .text-glow-primary {
+    text-shadow: 0 0 30px hsl(var(--glow-primary) / 0.5);
+  }
+
+  .text-glow-accent {
+    text-shadow: 0 0 30px hsl(var(--glow-accent) / 0.5);
+  }
+
+  /* Border Beam Animation */
+  .border-beam {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .border-beam::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      var(--beam-angle, 0deg),
+      transparent 40%,
+      hsl(var(--primary)) 50%,
+      hsl(var(--accent)) 60%,
+      transparent 60%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: beam-rotate 4s linear infinite;
+  }
+
+  @keyframes beam-rotate {
+    from { --beam-angle: 0deg; }
+    to { --beam-angle: 360deg; }
+  }
+
+  /* SVG Draw Animation */
+  .svg-draw {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: draw 2s ease-out forwards;
+  }
+
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* Pulse Animation */
+  .pulse-live {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.5;
+      transform: scale(1.2);
+    }
+  }
+
+  /* Shimmer Loading */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--secondary)) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Magnetic Button Base */
+  .magnetic-btn {
+    @apply relative overflow-hidden transition-all duration-300;
+  }
+
+  .magnetic-btn::before {
+    @apply absolute inset-0 bg-accent/10 scale-0 rounded-full transition-transform duration-500;
+    content: '';
+  }
+
+  .magnetic-btn:hover::before {
+    @apply scale-150;
+  }
+
+  /* Code font */
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer utilities {
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Register custom property for border beam */
+@property --beam-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
